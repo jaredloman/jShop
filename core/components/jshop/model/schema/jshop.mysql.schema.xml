@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="jshop" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+    <object class="jsItem" table="js_items" extends="xPDOSimpleObject">
+        <field key="title" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="longtitle" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="description" dbtype="text" phptype="string" default=""/>
+        <field key="content" dbtype="text" phptype="string" default=""/>
+		<field key="price" dbtype="float" precision="10,2" phptype="float" />
+		<field key="alias" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="active" dbtype="text" phptype="string" default="0" />
+		<field key="catId" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="1" />
+		<field key="featured" dbtype="text" phptype="string" default="0" />
+		<field key="stock" dbtype="int" precision="10" phptype="integer" default=""/>
+		
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+		<aggregate alias="Category" class="jsCategory" local="catId" foreign="id" cardinality="one" owner="foreign"/>
+		<composite alias="Option" class="jsOption" local="id" foreign="prodId" cardinality="many" owner="local"/>
+		<composite alias="Image" class="jsImage" local="id" foreign="prodId" cardinality="many" owner="local"/>
+    </object>
+	<object class="jsCategory" table="js_categories" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="description" dbtype="text" phptype="string" null="false" default=""/>
+		<field key="image" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="parent" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+ 		<field key="index" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+ 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+		<aggregate alias="Item" class="jsItem" local="id" foreign="catId" cardinality="many" owner="local"/>
+	</object>
+	<object class="jsOption" table="js_options" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+ 		<field key="prodId" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="1" />
+		<field key="index" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<aggregate alias="Product" class="jsItem" local="prodId" foreign="id" cardinality="one" owner="foreign"/>
+		<composite alias="OptionValues" class="jsOptionVals" local="id" foreign="optId" cardinality="many" owner="local"/>
+	</object>
+	<object class="jsOptionVals" table="js_option_vals" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="price" dbtype="varchar" precision="255" phptype="string" />
+		<field key="index" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<field key="optId" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="1" />
+		<field key="stock" dbtype="int" precision="10" phptype="integer" default=""/>
+		<aggregate alias="Option" class="jsOption" local="optId" foreign="id" cardinality="one" owner="foreign"/>
+	</object>
+	<object class="jsImage" table="js_images" extends="xPDOSimpleObject">
+		<field key="image" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+ 		<field key="description" dbtype="text" phptype="string" null="false" default=""/>
+ 		<field key="prodId" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="1" />
+		<field key="index" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<aggregate alias="Item" class="jsItem" local="prodId" foreign="id" cardinality="one" owner="foreign"/>
+	</object>
+	<object class="jsOrder" table="js_orders" extends="xPDOSimpleObject">
+        <field key="custId" dbtype="int" precision="10" attributes="unsigned" phptype="integer" default=""/>
+		<field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
+		<field key="products" dbtype="text" phptype="string" default=""/>
+		<field key="name" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="address" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="city" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="state" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="zip" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="phone" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="deliveryMethod" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="paymentMethod" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="comments" dbtype="text" phptype="string" default=""/>
+		<field key="subtotal" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="shipping" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="tax" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="taxrate" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="total" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="status" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="trackingno" dbtype="varchar" precision="255" phptype="string" default=""/>
+		<field key="stripeId" dbtype="varchar" precision="255" phptype="string" default="" />
+		 
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" default="0" />
+
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+		<aggregate alias="custId" class="modUser" local="custId" foreign="id" cardinality="many" owner="foreign"/>
+		<aggregate alias="Status" class="jsStatus" local="status" foreign="id" cardinality="one" owner="foreign"/>
+    </object>
+	<object class="jsStatus" table="js_status" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+ 		<field key="removeable" dbtype="int" precision="10" phptype="integer" null="false" default=""/>
+		<field key="default" dbtype="int" precision="1" phptype="integer" null="false" default="0" />
+		<aggregate alias="Order" class="jsOrder" local="id" foreign="status" cardinality="many" owner="foreign"/>
+	</object>
+</model>

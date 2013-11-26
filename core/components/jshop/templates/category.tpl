@@ -1,0 +1,1 @@
+<div id="jshop-panel-category-div"></div>

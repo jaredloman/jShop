@@ -1,0 +1,38 @@
+Changelog file for jShop component.
+
+jShop 1.0.5
+====================================
+- Minor Bug Fixes
+
+jShop 1.0.4
+====================================
+- Added Order Management Ability
+- Auto price re-calculation if modified
+- Added Customer Managment Ability
+- Added ability to view orders by customer
+
+jShop 1.0.3
+====================================
+- Tons of new features
+- Added Order Listing Snippet
+- Added Price Validation Hook
+- Added Shipping Validation Hook
+- Added Saved Payment Method Listing Snippet
+- Added Saved Payment Method Removal Hook
+- Added Tracking No to Order Object
+
+jShop 1.0.2
+====================================
+- Tons of fixes to the Stripe payment webhook
+- Added Price Output Modifier
+
+jShop 1.0.1
+====================================
+- Fixed Bug in Transport Package where Hook wasn't being installed
+- Fixed Bug in Option Value Price Adjustment Field
+- Fixed Bug in Payment Method Listing Snippet
+- Fixed syntax error in Payment Authorization Webhook
+ 
+jShop 1.0.0
+====================================
+- Initial commit

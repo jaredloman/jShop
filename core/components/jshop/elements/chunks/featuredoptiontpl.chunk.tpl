@@ -1,0 +1,1 @@
+<li><span class="t-dark" style="font-weight:bold">[[+name]]</span> - [[+value]]</li>
